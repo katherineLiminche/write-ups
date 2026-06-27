@@ -1,24 +1,24 @@
-# Lab: Reflected XSS with some SVG markup allowed
+# Lab: Reflected XSS in canonical link tag
 
 ## Goal
- - To solve the lab, perform a cross-site scripting attack that calls the alert() function.
+ - To solve the lab, perform a cross-site scripting attack on the home page that injects an attribute that calls the alert function.
 
 ## Enumeration
- - Site is blocking common tags but misses some SVG tags and events.
+ - The application reflects user-controlled input from the URL into the href attribute.
 
 ## Testing
- - tag animateTrasform and svg are allowed
- - Checked all posible events. Allowed only *onbegin* event.
-So onbegin triggers after animation starts, this Is why we need animateTransform which can be placed into svg.
+ - I was able to break out of the href attribute by injecting a single quote (').
+ - After escaping the attribute, I was able to inject additional HTML attributes.
 
 ## Exploitation
  Final payload:
 ```
-<svg><animateTransform onbegin='alert()'>
+Https://.../?'accesskey='x'onclick='alert()
 ```
+After typing 'x' onclick will execute alert()
 
 ## Root cause
- - Incomplete input filtering.
+ - User-controlled input is reflected into an HTML attribute without proper escaping.
 
 ## Remediation
- - Restrict which HTML and SVG elements are allowed in the search input.
+ - Properly escape user input before inserting it into HTML attributes.
