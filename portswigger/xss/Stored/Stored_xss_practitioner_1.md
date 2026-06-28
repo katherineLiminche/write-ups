@@ -19,7 +19,7 @@ Submit a comment that calls the `alert()` function when the comment author's nam
 
 Payload:
 
-```text id="5b1nra"
+```
 http://foo?&apos;-alert(1)-&apos;
 ```
 
